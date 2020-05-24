@@ -10,7 +10,7 @@ CREATE TABLE channel (
                           NOT NULL,
     name          STRING  NOT NULL
                           UNIQUE,
-    biography     STRING,
+    biography     STRING CHECK (LENGTH(biography) <= 140),
     followerCount INTEGER NOT NULL
 );
 
@@ -27,17 +27,6 @@ CREATE TABLE follows (
                       NOT NULL
 );
 
--- Table: follows
-DROP TABLE IF EXISTS follows;
-
-CREATE TABLE follows (
-    id        INTEGER PRIMARY KEY AUTOINCREMENT
-                      NOT NULL,
-    userID    INTEGER REFERENCES user (userID) 
-                      NOT NULL,
-    channelID INTEGER REFERENCES channel (channelID) 
-                      NOT NULL
-);
 
 -- Table: watches
 DROP TABLE IF EXISTS watches;
@@ -88,7 +77,7 @@ DROP TABLE IF EXISTS message;
 CREATE TABLE message (
     messageID INTEGER      PRIMARY KEY AUTOINCREMENT
                            NOT NULL,
-    content   STRING (140) NOT NULL,
+    content   STRING NOT NULL CHECK(LENGTH(content) <= 140),
     dateSent  STRING       NOT NULL
 );
 
