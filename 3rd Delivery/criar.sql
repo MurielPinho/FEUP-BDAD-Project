@@ -1,5 +1,4 @@
 PRAGMA foreign_keys = off;
-BEGIN TRANSACTION;
 
 -- Table: channel
 DROP TABLE IF EXISTS channel;
@@ -28,6 +27,32 @@ CREATE TABLE follows (
                       NOT NULL
 );
 
+-- Table: follows
+DROP TABLE IF EXISTS follows;
+
+CREATE TABLE follows (
+    id        INTEGER PRIMARY KEY AUTOINCREMENT
+                      NOT NULL,
+    userID    INTEGER REFERENCES user (userID) 
+                      NOT NULL,
+    channelID INTEGER REFERENCES channel (channelID) 
+                      NOT NULL
+);
+
+-- Table: watches
+DROP TABLE IF EXISTS watches;
+
+CREATE TABLE watches (
+    id INTEGER PRIMARY KEY AUTOINCREMENT
+                      NOT NULL,
+    userID    INTEGER REFERENCES user
+(userID) 
+                      NOT NULL,
+    streamID INTEGER REFERENCES stream
+(streamID) 
+                      NOT NULL
+);
+
 
 -- Table: game
 DROP TABLE IF EXISTS game;
@@ -53,8 +78,7 @@ CREATE TABLE genres (
     streamID    INTEGER REFERENCES stream (streamID) 
                         NOT NULL,
     name        TEXT    NOT NULL,
-    viewerCount INTEGER NOT NULL,
-    position    INTEGER NOT NULL
+    viewerCount INTEGER NOT NULL
 );
 
 
@@ -167,10 +191,8 @@ CREATE TABLE viewership (
                          NOT NULL,
     gameID       INTEGER REFERENCES game (gameID) 
                          NOT NULL,
-    viewerCount  INTEGER NOT NULL,
-    position     INTEGER NOT NULL
+    viewerCount  INTEGER NOT NULL
 );
 
 
-COMMIT TRANSACTION;
 PRAGMA foreign_keys = on;
