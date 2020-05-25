@@ -4,7 +4,7 @@
 .nullvalue NULL
 PRAGMA foreign_keys = ON;
 
--- 7. Top 3 followed games.
+-- 8. Top 3 followed games.
 SELECT game.title AS Game, count(userGame.id) as nFollowers
 FROM game
     INNER JOIN userGame

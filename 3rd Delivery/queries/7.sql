@@ -4,13 +4,8 @@
 .nullvalue NULL
 PRAGMA foreign_keys = ON;
 
--- 7. Number of times a stream was done in the morning.
-SELECT count(stream.streamID) as nMorningStreams
-FROM channel
-INNER JOIN stream
-ON channel.channelID = stream.channelID
-WHERE stream.startTime BETWEEN '08:00' AND '12:00' 
-
-
-
-
+-- 7. Total rounded hours each channel has streamed.
+SELECT channel.name AS Channel, total(stream.uptime) AS TotalHours
+FROM channel, stream
+WHERE channel.channelID = stream.channelID
+GROUP BY channel.name ;

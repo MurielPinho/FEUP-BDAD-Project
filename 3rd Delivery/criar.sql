@@ -10,7 +10,7 @@ CREATE TABLE channel (
                           NOT NULL,
     name          STRING  NOT NULL
                           UNIQUE,
-    biography     STRING CHECK (LENGTH(biography) <= 140),
+    biography     STRING CHECK (LENGTH(biography) <= 500),
     followerCount INTEGER NOT NULL
 );
 
@@ -51,7 +51,7 @@ CREATE TABLE game (
                           NOT NULL,
     title         STRING  NOT NULL,
     followerCount INTEGER NOT NULL,
-    description   STRING,
+    description   STRING CHECK (LENGTH (description) <= 800),
     totalViewers  INTEGER NOT NULL
 );
 
@@ -64,9 +64,7 @@ CREATE TABLE genres (
                         NOT NULL,
     tagID       INTEGER REFERENCES tag (tagID) 
                         NOT NULL,
-    streamID    INTEGER REFERENCES stream (streamID) 
-                        NOT NULL,
-    name        TEXT    NOT NULL,
+    tag        TEXT    NOT NULL,
     viewerCount INTEGER NOT NULL
 );
 
@@ -118,6 +116,7 @@ CREATE TABLE stream (
     startTime      TIME    NOT NULL,
     uptime         TIME    NOT NULL,
     ageRestriction BOOLEAN NOT NULL,
+    tagID          INTEGER NOT NULL,
     viewerCount    INTEGER NOT NULL
 );
 
@@ -150,11 +149,11 @@ DROP TABLE IF EXISTS user;
 CREATE TABLE user (
     userID         INTEGER     PRIMARY KEY AUTOINCREMENT
                                NOT NULL,
-    username       STRING (10) NOT NULL,
-    pass           STRING (10) NOT NULL,
-    birthDate      STRING      NOT NULL,
-    profilePicture STRING (10) NOT NULL,
-    email          STRING (10) NOT NULL,
+    username       STRING NOT NULL,
+    pass           STRING NOT NULL,
+    birthDate      DATE NOT NULL,
+    profilePicture STRING NOT NULL,
+    email          STRING NOT NULL,
     age            INTEGER
 );
 
@@ -180,7 +179,8 @@ CREATE TABLE viewership (
                          NOT NULL,
     gameID       INTEGER REFERENCES game (gameID) 
                          NOT NULL,
-    viewerCount  INTEGER NOT NULL
+    game        TEXT NOT NULL,
+    totalViewers  INTEGER NOT NULL
 );
 
 
